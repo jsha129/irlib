@@ -1,0 +1,25 @@
+---
+title: "irlib"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{irlib}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Note
+This package heavily relies on `all` variable which is simply a `list` of matrices, each list item containing specific columns of the IRFinder output (*-dir.txt* or *-nordir.txt*). Two useful functions to fetch specific columns from the IRFinder output: `IRF_column_names()` and ``.
+
+Typically, `all` contains 7 matrices: 
+
+
+```{r setup}
+library(irlib)
+```
