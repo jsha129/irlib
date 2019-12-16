@@ -2,24 +2,46 @@
 title: "irlib"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{irlib}
+%\VignetteIndexEntry{irlib}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
+  ---
+  
+  ```{r, include = FALSE}
+  knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
-)
-```
-
-# Note
-This package heavily relies on `all` variable which is simply a `list` of matrices, each list item containing specific columns of the IRFinder output (*-dir.txt* or *-nordir.txt*). Two useful functions to fetch specific columns from the IRFinder output: `IRF_column_names()` and ``.
-
-Typically, `all` contains 7 matrices: 
-
-
+  )
+  ```
+  
+  # Note
+  This package heavily relies on `all` variable which is simply a `list` of matrices, each list item containing specific columns of the IRFinder output (*-dir.txt* or *-nordir.txt*). Two useful functions to fetch specific columns from the IRFinder output: `IRF_column_names()` and ``.
+  
+  Typically, `all` contains 7 matrices: 
+  
+  ## Read data from IRFinder output folder
+  The main output of IRFinder is `IRFinder-IR-nondir.txt`. In addition, IRFinder may generate `IRFinder-IR-dir.txt` if RNA-seq library contained strand information (aka "stranded").
+  
+  
 ```{r setup}
 library(irlib)
+## Preperation
+IRF_OUTPUT_DIR <- file.path("~/Downloads/irlib_data/") 
+SAMPLES <- list.dirs(IRF_OUTPUT_DIR, recursive = F, full.names = F)
+IRF_OUTPUT_FILENAME <- "IRFinder-IR-nondir.txt"
+
+filepaths <- file.path(IRF_OUTPUT_DIR, SAMPLES, IRF_OUTPUT_FILENAME)
 ```
+
+```{r}
+# avaiable columns:
+print(IRF_column_names())
+
+## which columns to extract
+extractCol <- c(8, 9, 17, 18, 19,20, 21)
+## Reading data
+all <- fetchIRFinderOutputColumns(filepaths, colNum = extractCol, SAMPLES)
+
+# save(all, file = "data/IRFinder_practice_data.Rdata")
+```
+
