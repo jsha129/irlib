@@ -4,7 +4,7 @@
 \alias{plotRawIR}
 \title{plots raw IR, spliceLeft etc for a given IR.}
 \usage{
-plotRawIR(select_ir, ...)
+plotRawIR(data, select_ir)
 }
 \arguments{
 \item{select_ir}{selecte_ir to plot. must be more than one AND match rownames or row number of all.}

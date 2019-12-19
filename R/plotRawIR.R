@@ -6,25 +6,20 @@
 #' @return
 #' @export
 
-plotRawIR <- function(select_ir, ...){
-  if(length(select_ir) == 1){
-    stop("Please provide more than one select_ir")
+plotRawIR <- function(data, select_ir){
+  if(length(select_ir) >= 2){
+    stop("Please provide only one select_ir")
   }
-
-  if(exists("all") & class(all) == "list"){
-    par(mfrow = c(1,2))
-    for(i in select_ir){
-      temp1 <- data.frame(SL = all[["spliceLeft"]][select_ir,],
-                          SR = all[["spliceRight"]][select_ir,],
-                          SE = all[["spliceExact"]][select_ir,],
-                          ID = all[["intronDepth"]][select_ir,])
-      temp2 <- data.frame(IR = all[["IR"]][select_ir,],
-                          Cov = all[["coverage"]][select_ir,])
-      boxplot(temp1 , ...)
-      boxplot(temp2, ...)
-    }
-  } else {
-    stop("please define or load 'all' variable containing spliceleft etc")
+  par(mfrow = c(1,2))
+  for(i in select_ir){
+    temp1 <- data.frame(SL = data[["spliceLeft"]][select_ir,],
+                        SR = data[["spliceRight"]][select_ir,],
+                        SE = data[["spliceExact"]][select_ir,],
+                        ID = data[["intronDepth"]][select_ir,])
+    temp2 <- data.frame(IR = data[["IR"]][select_ir,],
+                        Cov = data[["coverage"]][select_ir,])
+    boxplot(temp1, main = select_ir, cex.main = 0.8)
+    boxplot(temp2, main = select_ir, cex.main = 0.8)
   }
 
 }

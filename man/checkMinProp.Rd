@@ -5,15 +5,15 @@
 \title{evaluates whether at least X proportion of samples in raw value matrix
   meets some threshhold value.}
 \usage{
-checkMinProp(mat, value, min_proportion, byrow = T)
+checkMinProp(mat, min_proportion, value, byrow = T)
 }
 \arguments{
 \item{mat}{value matrix}
 
-\item{value}{threshhold value to check in *mat*}
-
 \item{min_proportion}{threshhold minimum proportions of samples (colnames) to
 higher than the value parameter}
+
+\item{value}{threshhold value to check in *mat*}
 
 \item{byrow}{whether to calculate min_proportion by row}
 }

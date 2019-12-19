@@ -4,14 +4,16 @@
 \alias{diagnose_IRF_output}
 \title{returns values of key columns of the IRFinder output for selected samples and IRs.}
 \usage{
-diagnose_IRF_output(all, ir_index, selectSamples)
+diagnose_IRF_output(data, ir_index, selectSamples, columns = colnames(data))
 }
 \arguments{
-\item{all}{the mighty \emph{all} variable containing list of IRFinder columns.}
+\item{data}{something similar to the mighty \emph{all} variable containing list of IRFinder columns.}
 
 \item{ir_index}{index values of IRs to look}
 
 \item{selectSamples}{samples}
+
+\item{columns}{which IRFinder output columns to report}
 }
 \value{
 

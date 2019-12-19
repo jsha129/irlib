@@ -14,7 +14,10 @@
 #' @export
 #'
 
-checkMinProp <- function(mat, value, min_proportion , byrow = T){
+checkMinProp <- function(mat, min_proportion, value, byrow = T){
+  if(min_proportion > 1 | min_proportion < 0){
+    stop("min_proportion must be between 0 and 1")
+  }
   if(byrow){
     temp <- apply(mat, 1, function(i){
       sum(i > value)/length(i) >= min_proportion
