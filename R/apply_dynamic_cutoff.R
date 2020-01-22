@@ -26,10 +26,15 @@ apply_dynamic_cutoff <- function(mat, refIntrons, dynamicCutoff = 1000, rowLogic
     stop("Please provide at least 2 reference introns")
   }
   matRefVals <- mat[refIntrons, ]
-  matCutOffVals <- matrix(c(1), ncol = ncol(matRefVals) , nrow = 1 )
-  for(i in 1:nrow(matRefVals)){
-    matCutOffVals <- matCutOffVals * matRefVals[i,]
-  }
+  #
+  # matCutOffVals <- matrix(c(1), ncol = ncol(matRefVals) , nrow = 1 )
+  # for(i in 1:nrow(matRefVals)){
+  #   matCutOffVals <- matCutOffVals * matRefVals[i,]
+  # }
+  matCutOffVals <- sapply(1:nrow(matRefVals), function(i){
+    matRefVals[i,]
+  })
+  matCutOffVals <- t(matCutOffVals)
   matCutOffVals <- as.numeric((matCutOffVals^(1/nrow(matRefVals)))/dynamicCutoff)
   names(matCutOffVals) <- colnames(mat)
 
