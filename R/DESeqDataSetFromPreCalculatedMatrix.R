@@ -32,6 +32,10 @@ DESeqDataSetFromPreCalculatedMatrix <- function(expDesign,
   if(any(!is.na(selectedIR))  & class(selectedIR) == "logical") {
     stop("Please provide selected IR as characters, not logical vector.")
   }
+  if( nrow(expDesign) != ncol(mat_intronDepth) | nrow(expDesign) != ncol(mat_spliceExact)  ){
+    stop("rows of expDesign do not match columns of mat_intronDepth or mat_spliceExact. You may need to subset both matrices to match the expDesign.")
+
+  }
 
   selectedIR <- gsub(" ", "", selectedIR)
 
