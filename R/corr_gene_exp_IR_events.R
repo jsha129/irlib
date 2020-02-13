@@ -16,7 +16,8 @@ corr_gene_exp_IR_events <- function(mat_gene_exp, mat_IR){
       print(paste("Calculating correlation for gene number",i))
     }
 
-    a <- lm(mat_gene_exp[i,] ~ mat_IR)
+    # a <- lm(mat_gene_exp[i,] ~ mat_IR) # old, as in the package
+    a <- lm(mat_IR ~ mat_gene_exp[i,])
     summary(a)
   } )
   lmModels_coeff <- t(sapply(lmModels, function(i){
@@ -41,7 +42,7 @@ corr_gene_exp_IR_events <- function(mat_gene_exp, mat_IR){
     cor(mat_gene_exp[i,], mat_IR, method = "kendall")
   } )
 
-  returnDF <- data.frame(gene = rownames(mat_gene_exp),
+  returnDF <- data.frame(gene_id = rownames(mat_gene_exp),
                          lmModels_coeff,
                          lm_r_squared = lmModels_r.squared,
                          corr_pearson,
@@ -49,4 +50,3 @@ corr_gene_exp_IR_events <- function(mat_gene_exp, mat_IR){
                          corr_kendall)
   return(returnDF)
 }
-
