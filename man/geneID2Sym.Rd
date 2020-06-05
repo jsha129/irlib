@@ -6,6 +6,9 @@
 \usage{
 geneID2Sym(ids)
 }
+\arguments{
+\item{ids}{Ensembl ids to be converted to gene symbols}
+}
 \value{
 
 }

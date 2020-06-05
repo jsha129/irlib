@@ -1,4 +1,5 @@
-#' Convers ensembl id to gene symbol.
+#' @title Convers ensembl id to gene symbol.
+#' @param ids Ensembl ids to be converted to gene symbols
 #' @return
 #' @import org.Hs.eg.db
 #' @export

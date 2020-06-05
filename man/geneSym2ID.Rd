@@ -6,6 +6,9 @@
 \usage{
 geneSym2ID(symbols)
 }
+\arguments{
+\item{symbols}{gene symbols to be converted to Ensembl IDs.}
+}
 \value{
 
 }
