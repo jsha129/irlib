@@ -21,7 +21,15 @@ corr_gene_exp_IR_events <- function(mat_gene_exp, mat_IR){
     summary(a)
   } )
   lmModels_coeff <- t(sapply(lmModels, function(i){
-    i$coefficients[2,]
+    if(nrow(i$coefficients) >=2){
+      i$coefficients[2,]
+    } else{
+      ## prevents from 'singularity' erryr when x or y has too many identical values, ie 0
+      temp <- matrix(c(0, 0,0,1), nrow = 1)
+      colnames(temp) <-  colnames(i$coefficients)
+      temp
+    }
+
   }))
   colnames(lmModels_coeff)[4] <- "pvalue"
   colnames(lmModels_coeff) <- gsub(" ", "_", paste0("lm_",colnames(lmModels_coeff)))
