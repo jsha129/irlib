@@ -30,11 +30,11 @@ addHashes <- function(){
 # Interactive: true
 
 
-# Name: Inserts dashes for comments
+# Name: Inserts hashes for comments
 # Description: Inserts `####` (54 times) at the cursor position.
 # Binding: addHashes
 # Interactive: true
 
+## check that both commands are now available: Tools > Addins > Browse addins
 
-## now define shortcuts
-
+## now define shortcuts for by Tools > Modify Keyboard shortcuts
