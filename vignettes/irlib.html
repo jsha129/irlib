@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>irlib</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">irlib</h1>
+
+
+
+<div id="reading-data" class="section level1">
+<h1>Reading data</h1>
+<p>The main output of IRFinder is <code>IRFinder-IR-nondir.txt</code>. In addition, IRFinder may generate <code>IRFinder-IR-dir.txt</code> if RNA-seq library contained strand information (aka “stranded”). For computational purposes, it might be helpful to have matrices for each columns (IR ratio, for example) from the IRFinder output.</p>
+<p>This package heavily relies on a variable called <code>all</code> which is simply a <code>list</code> of matrices, each list item containing specific columns of the IRFinder output (<code>-dir.txt</code> or <code>-nordir.txt</code>). Two useful functions to fetch specific columns from the IRFinder output: <code>IRF_column_names()</code> and <code>fetchIRFinderOutputColumns()</code>.</p>
+<p>Typically, the <code>all</code> variable contains 7 matrices: coverage (column #8), intron depth (ID; #9), splice left (SL; #18), splice right (SR; #18), splice exact (SE; #19), intron retention ratio (IR; #20) and IRF_warnings (#21).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(irlib)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; ── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; ✓ ggplot2 3.2.1     ✓ purrr   0.3.3</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ✓ tibble  2.1.3     ✓ dplyr   0.8.3</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ✓ tidyr   1.0.0     ✓ stringr 1.4.0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; ✓ readr   1.3.1     ✓ forcats 0.4.0</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; ── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; x dplyr::filter() masks irlib::filter(), stats::filter()</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; x dplyr::lag()    masks irlib::lag(), stats::lag()</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> F)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">## Preperation</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">IRF_OUTPUT_DIR &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;~/Downloads/irlib_data/&quot;</span>) </a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">SAMPLES &lt;-<span class="st"> </span><span class="kw">list.dirs</span>(IRF_OUTPUT_DIR, <span class="dt">recursive =</span> F, <span class="dt">full.names =</span> F)</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">IRF_OUTPUT_FILENAME &lt;-<span class="st"> &quot;IRFinder-IR-nondir.txt&quot;</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">filepaths &lt;-<span class="st"> </span><span class="kw">file.path</span>(IRF_OUTPUT_DIR, SAMPLES, IRF_OUTPUT_FILENAME)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># avaiable columns:</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">print</span>(<span class="kw">IRF_column_names</span>())</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    ColNum                   Name</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 1       1                    Chr</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 2       2                  Start</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 3       3                    End</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 4       4            Gene_Symbol</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 5       5                   Null</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 6       6                 Strand</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 7       7          ExcludedBases</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 8       8               coverage</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 9       9            intronDepth</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 10     10   Intron_25_Percentile</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; 11     11   Intron_50_Percentile</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 12     12   Intron_75_Percentile</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 13     13  ExonToIntronReadsLeft</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 14     14 ExonToIntronReadsRight</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; 15     15 IntronDepth_first_50bp</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 16     16  IntronDepth_last_50bp</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 17     17             spliceLeft</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; 18     18            spliceRight</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 19     19            spliceExact</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 20     20                     IR</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 21     21           IRF_warnings</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">## which columns to extract</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">extractCol &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>,<span class="dv">20</span>, <span class="dv">21</span>)</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">## Reading data, commented out </span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co"># all &lt;- fetchIRFinderOutputColumns(filepaths, colNum = extractCol, SAMPLES)</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">## loading saved data</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="kw">data</span>(<span class="st">&quot;all&quot;</span>)</a></code></pre></div>
+<p>Some additional variables that could be useful</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">irnames &lt;-<span class="st"> </span><span class="kw">rownames</span>(all[[<span class="st">&quot;IR&quot;</span>]])</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">irLengths &lt;-<span class="st"> </span><span class="kw">intron_length</span>(irnames)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Loading required package: GenomicRanges</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Loading required package: stats4</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Loading required package: BiocGenerics</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Loading required package: parallel</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; Attaching package: 'BiocGenerics'</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; The following objects are masked from 'package:parallel':</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;     combine, intersect, setdiff, union</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; The following objects are masked from 'package:irlib':</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt;     combine, intersect, setdiff, union</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt;     IQR, mad, sd, var, xtabs</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt;     Filter, Find, Map, Position, Reduce, anyDuplicated, append,</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt;     as.data.frame, basename, cbind, colnames, dirname, do.call,</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt;     duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt;     lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,</span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt;     pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,</span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt;     tapply, union, unique, unsplit, which, which.max, which.min</span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt; Loading required package: S4Vectors</span></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#&gt; Attaching package: 'S4Vectors'</span></a>
+<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="co">#&gt;     first, rename</span></a>
+<a class="sourceLine" id="cb3-37" data-line-number="37"><span class="co">#&gt; The following object is masked from 'package:tidyr':</span></a>
+<a class="sourceLine" id="cb3-38" data-line-number="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="co">#&gt;     expand</span></a>
+<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">#&gt; The following objects are masked from 'package:irlib':</span></a>
+<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-42" data-line-number="42"><span class="co">#&gt;     first, rename</span></a>
+<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt; The following object is masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;     expand.grid</span></a>
+<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; Loading required package: IRanges</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; Attaching package: 'IRanges'</span></a>
+<a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;     collapse, desc, slice</span></a>
+<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; The following object is masked from 'package:purrr':</span></a>
+<a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt;     reduce</span></a>
+<a class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt; The following objects are masked from 'package:irlib':</span></a>
+<a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt;     collapse, desc, slice</span></a>
+<a class="sourceLine" id="cb3-58" data-line-number="58"><span class="co">#&gt; Loading required package: GenomeInfoDb</span></a>
+<a class="sourceLine" id="cb3-59" data-line-number="59">irTypes &lt;-<span class="st"> </span><span class="kw">intron_type</span>(irnames)</a>
+<a class="sourceLine" id="cb3-60" data-line-number="60"><span class="kw">table</span>(irTypes)</a>
+<a class="sourceLine" id="cb3-61" data-line-number="61"><span class="co">#&gt; irTypes</span></a>
+<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="co">#&gt;                      anti-near                      anti-over </span></a>
+<a class="sourceLine" id="cb3-63" data-line-number="63"><span class="co">#&gt;                          24289                          24682 </span></a>
+<a class="sourceLine" id="cb3-64" data-line-number="64"><span class="co">#&gt;                          clean                     known-exon </span></a>
+<a class="sourceLine" id="cb3-65" data-line-number="65"><span class="co">#&gt;                         178338                           3236 </span></a>
+<a class="sourceLine" id="cb3-66" data-line-number="66"><span class="co">#&gt;           known-exon+anti-near known-exon+anti-near+anti-over </span></a>
+<a class="sourceLine" id="cb3-67" data-line-number="67"><span class="co">#&gt;                           1311                           1475</span></a></code></pre></div>
+<p>Experimental design</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">expDesign &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Sample =</span> <span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;Cancer&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">sep =</span><span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;Normal&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) ) ,</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">                        <span class="dt">Condition =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Cancer&quot;</span>, <span class="st">&quot;Normal&quot;</span>), <span class="dt">each =</span> <span class="dv">3</span>)) </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">expDesign</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;     Sample Condition</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1 Cancer_1    Cancer</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2 Cancer_2    Cancer</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3 Cancer_3    Cancer</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4 Normal_1    Normal</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 5 Normal_2    Normal</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 6 Normal_3    Normal</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw">str</span>(expDesign)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 'data.frame':    6 obs. of  2 variables:</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  $ Sample   : chr  &quot;Cancer_1&quot; &quot;Cancer_2&quot; &quot;Cancer_3&quot; &quot;Normal_1&quot; ...</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  $ Condition: chr  &quot;Cancer&quot; &quot;Cancer&quot; &quot;Cancer&quot; &quot;Normal&quot; ...</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">expDesign<span class="op">$</span>Condition &lt;-<span class="st"> </span><span class="kw">factor</span>(expDesign<span class="op">$</span>Condition,</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">                              <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;Normal&quot;</span>, <span class="st">&quot;Cancer&quot;</span>))</a></code></pre></div>
+</div>
+<div id="filtering" class="section level1">
+<h1>Filtering</h1>
+<p>Applying IRFinder to human genome version hg38 results in roughtly 200,000 introns. This is a large number to pre-process for downstream analyses aiming to find differentially retained introns between biological treatments/conditions. Furthermore, a significant number of introns are expressed at very low level that may not be biologically meaningful.</p>
+<p>Filtering could be performed at different scales:</p>
+<ul>
+<li><strong>Global filtering</strong> irrelevent of biological treatments. For example, it may be helpful to remove introns that are not expressed in all samples based on average expression in all samples (rowMeans &gt; expression threshhold).</li>
+<li>IR events that downregulated in specific biological treatments could be lost when applying Global filtering. In such cases, <strong>Proportional filtering</strong> could be used where at least X% of the samples meet the filter, eg the expression threshhold.</li>
+<li><strong>Sample-wise filtering</strong>: applies filtering criteria to each sample, applies <code>and</code> or <code>or</code> logic to combine results and returns a logical vector of 1 dimension.</li>
+<li><strong>Group-wise filtering</strong> where at least one biological group or condition matches some criteria. This is performed because some IR or genes can specifically be downregulated in one specific condition.</li>
+</ul>
+<p>Note: Most filtering functions return 1D logical vector indicating the outcome of the selection criteria on each IR in the rownames in data matrix. In addition, it is possible to evaluate IR based on different type of filtering functions mentioned below.</p>
+<div id="global-filtering" class="section level2">
+<h2>Global filtering</h2>
+<p>Criteria:</p>
+<ol style="list-style-type: decimal">
+<li>Average expression (measured by splice exact) in all samples is &gt; 50 <strong>AND</strong></li>
+<li>average IR ratio is &gt; 0.1</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">filtered_ir &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(all[[<span class="st">&quot;spliceExact&quot;</span>]]) <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">rowMeans</span>(all[[<span class="st">&quot;IR&quot;</span>]]) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 232787    544</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">## seeing which IRs match the criteria.</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">irnames[filtered_ir] <span class="op">%&gt;%</span><span class="st"> </span>head</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; [1] &quot;CPSF3L/ENSG00000127054/anti-near/1:1314962-1315403:-&quot;                    </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; [2] &quot;PRKCZ/ENSG00000067606/known-exon+anti-near+anti-over/1:2184698-2184921:+&quot;</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [3] &quot;TNFRSF14/ENSG00000157873/clean/1:2558468-2559822:+&quot;                      </span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [4] &quot;ERRFI1/ENSG00000116285/known-exon/1:8014396-8015307:-&quot;                   </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [5] &quot;ERRFI1/ENSG00000116285/clean/1:8015384-8015494:-&quot;                        </span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; [6] &quot;ERRFI1/ENSG00000116285/anti-near/1:8015692-8026157:-&quot;</span></a></code></pre></div>
+</div>
+<div id="proportional-filtering" class="section level2">
+<h2>Proportional filtering</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">## Filtering IR where at least 50% of samples have value of at least 0.1.</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">filtered_ir &lt;-<span class="st"> </span><span class="kw">checkMinProp</span>(<span class="dt">mat =</span> all[[<span class="st">&quot;IR&quot;</span>]], <span class="dt">min_proportion =</span> <span class="fl">0.5</span>, <span class="dt">value =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 221973  11358</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">### --------------------------------------------------</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">## Checking values for multiple conditions/matrices</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">### --------------------------------------------------</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## Filtering IR where </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## (1) at least 50% of samples have value of IR greater than 0.1 AND</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## (2) at least 70% of samples have minimum coverage greater than 0.8 AND </span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">## (3) at least 50% of samples have sum of SL and SR greater than 100</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">filtered_ir &lt;-<span class="st"> </span><span class="kw">checkMinProp</span>(<span class="dt">mat =</span> all[[<span class="st">&quot;IR&quot;</span>]], <span class="dt">min_proportion =</span> <span class="fl">0.5</span>, <span class="dt">value =</span> <span class="fl">0.1</span>) <span class="op">&amp;</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="st">  </span><span class="kw">checkMinProp</span>(<span class="dt">mat =</span> all[[<span class="st">&quot;coverage&quot;</span>]], <span class="dt">min_proportion =</span> <span class="fl">0.7</span>, <span class="dt">value =</span> <span class="fl">0.8</span>) <span class="op">&amp;</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="st">  </span><span class="kw">checkMinProp</span>(<span class="dt">mat =</span> (all[[<span class="st">&quot;spliceLeft&quot;</span>]] <span class="op">+</span><span class="st"> </span>all[[<span class="st">&quot;spliceRight&quot;</span>]]), <span class="dt">min_proportion =</span> <span class="fl">0.5</span>, <span class="dt">value =</span> <span class="dv">100</span>) </a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 232569    762</span></a></code></pre></div>
+</div>
+<div id="sample-wise-filtering" class="section level2">
+<h2>Sample-wise filtering</h2>
+<p>Filtering criteria is stored in a character variable and will be directly evaluated by R. To allow direct evaluation, dummy variable <code>x</code> is used as a placeholder for each sample and must be included in text <code>criteria</code>. Also note to include escape characters <code>\&quot;</code> for quotes.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">## Filtering IR where each sample have IR value of at least 0.1.</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">criteria &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IR</span><span class="ch">\&quot;</span><span class="st">]][, x] &gt; 0.1&quot;</span> <span class="co"># [,x] will be replaced by each sample</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">filtered_ir &lt;-<span class="st"> </span><span class="kw">filterSamples</span>(<span class="dt">all =</span> all, criteria) </a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 229986   3345</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">### --------------------------------------------------</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">## Checking values for multiple conditions/matrices</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">### --------------------------------------------------</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">## Filtering IR where each IR has:</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">## (1) IR &gt; 0.01 in all samples AND </span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">## (2) sum of SL and SR greater than 100 in all samples AND</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">## (3) no warning from IRFinder in all samples.</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">criteria &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IR</span><span class="ch">\&quot;</span><span class="st">]][, x] &gt; 0.01 &amp; </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="st">(all[[</span><span class="ch">\&quot;</span><span class="st">spliceLeft</span><span class="ch">\&quot;</span><span class="st">]][,x] + all[[</span><span class="ch">\&quot;</span><span class="st">spliceRight</span><span class="ch">\&quot;</span><span class="st">]][,x]) &gt; 100 &amp;</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="st">all[[</span><span class="ch">\&quot;</span><span class="st">IRF_warnings</span><span class="ch">\&quot;</span><span class="st">]] == </span><span class="ch">\&quot;</span><span class="st">-</span><span class="ch">\&quot;</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">filtered_ir &lt;-<span class="st"> </span><span class="kw">filterSamples</span>(<span class="dt">all =</span> all, criteria) </a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; 233315     16</span></a></code></pre></div>
+</div>
+<div id="group-wise-filtering" class="section level2">
+<h2>Group-wise filtering</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">groups &lt;-<span class="st"> </span><span class="kw">split</span>(expDesign<span class="op">$</span>Sample, expDesign<span class="op">$</span>Condition)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">groups</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; $Normal</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Normal_1&quot; &quot;Normal_2&quot; &quot;Normal_3&quot;</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; $Cancer</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; [1] &quot;Cancer_1&quot; &quot;Cancer_2&quot; &quot;Cancer_3&quot;</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">criteria &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IR</span><span class="ch">\&quot;</span><span class="st">]][, x] &gt; 0.1&quot;</span> <span class="co"># [,x] will be replaced by each sample</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">filtered_ir &lt;-<span class="st"> </span><span class="kw">filterSamplesByGroups</span>(<span class="dt">all =</span> all, </a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">                                     <span class="dt">criteria =</span> criteria,</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">                      <span class="dt">groups =</span> groups, </a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">                      <span class="dt">minPassingGroups =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; 225481   7850</span></a></code></pre></div>
+</div>
+<div id="combining-multiple-type-of-filtering" class="section level2">
+<h2>Combining multiple type of filtering</h2>
+<p>Here we select which IR satisfy:</p>
+<ol style="list-style-type: decimal">
+<li>IR ratio in all samples belonging to at least one group is greater than 0.01 AND</li>
+<li>Average splice exact in all samples is greater than 100 AND</li>
+<li>No IRF warning or IRF warning is <code>LowCover</code> in all samples.</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">groups &lt;-<span class="st"> </span><span class="kw">split</span>(expDesign<span class="op">$</span>Sample, expDesign<span class="op">$</span>Condition)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">groups</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; $Normal</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Normal_1&quot; &quot;Normal_2&quot; &quot;Normal_3&quot;</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; $Cancer</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; [1] &quot;Cancer_1&quot; &quot;Cancer_2&quot; &quot;Cancer_3&quot;</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">## 1. IR ratio in all samples belonging to at least one group is greater than 0.01</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">criteria1 &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IR</span><span class="ch">\&quot;</span><span class="st">]][, x] &gt; 0.01&quot;</span> <span class="co"># [,x] will be replaced by each sample</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">filtered_ir1 &lt;-<span class="st"> </span><span class="kw">filterSamplesByGroups</span>(<span class="dt">all =</span> all, <span class="dt">criteria =</span> criteria1,</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">                      <span class="dt">groups =</span> groups, </a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">                      <span class="dt">minPassingGroups =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="kw">table</span>(filtered_ir1)</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; filtered_ir1</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 195667  37664</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">## 2. Average splice exact in all samples is greater than 100 AND</span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">filtered_ir2 &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(all[[<span class="st">&quot;spliceExact&quot;</span>]]) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="kw">table</span>(filtered_ir2)</a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; filtered_ir2</span></a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt; 194942  38389</span></a>
+<a class="sourceLine" id="cb10-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">## 3. No IRF warning in all samples.</span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27">criteria3 &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IRF_warnings</span><span class="ch">\&quot;</span><span class="st">]][, x] == </span><span class="ch">\&quot;</span><span class="st">-</span><span class="ch">\&quot;</span><span class="st"> | all[[</span><span class="ch">\&quot;</span><span class="st">IRF_warnings</span><span class="ch">\&quot;</span><span class="st">]][, x] == </span><span class="ch">\&quot;</span><span class="st">LowCover</span><span class="ch">\&quot;</span><span class="st"> &quot;</span> </a>
+<a class="sourceLine" id="cb10-28" data-line-number="28">filtered_ir3 &lt;-<span class="st"> </span><span class="kw">filterSamples</span>(<span class="dt">all =</span> all, criteria3)</a>
+<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="kw">table</span>(filtered_ir3)</a>
+<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">#&gt; filtered_ir3</span></a>
+<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="co">#&gt;  98044 135287</span></a>
+<a class="sourceLine" id="cb10-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb10-34" data-line-number="34"><span class="co">###### combining all three filters</span></a>
+<a class="sourceLine" id="cb10-35" data-line-number="35">filtered_ir &lt;-<span class="st"> </span>filtered_ir1 <span class="op">&amp;</span><span class="st"> </span>filtered_ir2 <span class="op">&amp;</span><span class="st"> </span>filtered_ir3</a>
+<a class="sourceLine" id="cb10-36" data-line-number="36"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb10-37" data-line-number="37"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb10-38" data-line-number="38"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb10-39" data-line-number="39"><span class="co">#&gt; 233289     42</span></a></code></pre></div>
+</div>
+<div id="misc" class="section level2">
+<h2>misc</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">## recoding IRF warnings as integer using recode_IRF_warnings() and pre-programmed IRF_WARNING_CODES()</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># frequency table of IRF warnings</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">table</span>(all[[<span class="st">&quot;IRF_warnings&quot;</span>]])</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;                     -              LowCover           LowSplicing </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;                350814                713618                  8762 </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;          MinorIsoform NonUniformIntronCover </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt;                 46246                280546</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">## recoding IRF warnings as integer</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="kw">print</span>(<span class="kw">IRF_WARNING_CODES</span>()) </a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt;   Code           IRF_warning</span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; 1    0                     -</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; 2    1              LowCover</span></a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; 3    2           LowSplicing</span></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt; 4    3          MinorIsoform</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; 5    4 NonUniformIntronCover</span></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb11-19" data-line-number="19">irf_recoded &lt;-<span class="st"> </span><span class="kw">recode_IRF_warnings</span>(all[[<span class="st">&quot;IRF_warnings&quot;</span>]])</a>
+<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="kw">table</span>(irf_recoded) <span class="co"># note that this frequency table is identical to uncoded IRF warnings</span></a>
+<a class="sourceLine" id="cb11-21" data-line-number="21"><span class="co">#&gt; irf_recoded</span></a>
+<a class="sourceLine" id="cb11-22" data-line-number="22"><span class="co">#&gt;      0      1      2      3      4 </span></a>
+<a class="sourceLine" id="cb11-23" data-line-number="23"><span class="co">#&gt; 350814 713618   8762  46246 280546</span></a></code></pre></div>
+</div>
+</div>
+<div id="diagnosing-ir-and-looking-at-raw-data" class="section level1">
+<h1>Diagnosing IR and looking at raw data</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">## get IRFinder values for selected IRs.</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">diagnose_IRF_output</span>(<span class="dt">data =</span> all, </a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">                    <span class="kw">which</span>(filtered_ir)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], </a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">                    <span class="kw">c</span>(<span class="st">&quot;Cancer_1&quot;</span>, <span class="st">&quot;Normal_1&quot;</span>), </a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">                    <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;coverage&quot;</span>, <span class="st">&quot;IR&quot;</span>) )</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;                                                   IR_Name   IR_Type</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 1          AGRN/ENSG00000188157/clean/1:1046265-1046396:+     clean</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 2 PLEKHM2/ENSG00000116786/anti-over/1:15727832-15728078:+ anti-over</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt;   Cancer_1_coverage Cancer_1_IR Normal_1_coverage Normal_1_IR</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 1          1.000000  0.01217870                 1   0.0124760</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; 2          0.474576  0.00530403                 1   0.0317655</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">## Visualise IRFinder values for selected IR, one IR at a time. </span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">plotRawIR</span>(all,<span class="st">&quot;TNFRSF14/ENSG00000157873/clean/1:2558468-2559822:+&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">## Use a loop to visualise multiple IR, one after another.</span></a></code></pre></div>
+</div>
+<div id="idetifying-differential-ir-betwen-biological-conditions" class="section level1">
+<h1>Idetifying differential IR betwen biological conditions</h1>
+<div id="deseq2" class="section level2">
+<h2>DESeq2</h2>
+<p>Modified DESeq2 can be used for identifying differentially retained introns.</p>
+<div id="prepare-deseq2-object" class="section level3">
+<h3>Prepare DESeq2 object</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">## Filtering IR where each sample have IR value of at least 0.1.</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">criteria &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IR</span><span class="ch">\&quot;</span><span class="st">]][, x] &gt; 0.1&quot;</span> <span class="co"># [,x] will be replaced by each sample</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">filtered_ir &lt;-<span class="st"> </span><span class="kw">filterSamples</span>(<span class="dt">all =</span> all, criteria) </a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 229986   3345</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">## </span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="kw">library</span>(DESeq2)</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; Loading required package: SummarizedExperiment</span></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt; Loading required package: Biobase</span></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt; Welcome to Bioconductor</span></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt;     Vignettes contain introductory material; view with</span></a>
+<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="co">#&gt;     'browseVignettes()'. To cite Bioconductor, see</span></a>
+<a class="sourceLine" id="cb15-18" data-line-number="18"><span class="co">#&gt;     'citation(&quot;Biobase&quot;)', and for packages 'citation(&quot;pkgname&quot;)'.</span></a>
+<a class="sourceLine" id="cb15-19" data-line-number="19"><span class="co">#&gt; Loading required package: DelayedArray</span></a>
+<a class="sourceLine" id="cb15-20" data-line-number="20"><span class="co">#&gt; Loading required package: matrixStats</span></a>
+<a class="sourceLine" id="cb15-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-22" data-line-number="22"><span class="co">#&gt; Attaching package: 'matrixStats'</span></a>
+<a class="sourceLine" id="cb15-23" data-line-number="23"><span class="co">#&gt; The following objects are masked from 'package:Biobase':</span></a>
+<a class="sourceLine" id="cb15-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-25" data-line-number="25"><span class="co">#&gt;     anyMissing, rowMedians</span></a>
+<a class="sourceLine" id="cb15-26" data-line-number="26"><span class="co">#&gt; The following object is masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb15-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-28" data-line-number="28"><span class="co">#&gt;     count</span></a>
+<a class="sourceLine" id="cb15-29" data-line-number="29"><span class="co">#&gt; The following object is masked from 'package:irlib':</span></a>
+<a class="sourceLine" id="cb15-30" data-line-number="30"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-31" data-line-number="31"><span class="co">#&gt;     count</span></a>
+<a class="sourceLine" id="cb15-32" data-line-number="32"><span class="co">#&gt; Loading required package: BiocParallel</span></a>
+<a class="sourceLine" id="cb15-33" data-line-number="33"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-34" data-line-number="34"><span class="co">#&gt; Attaching package: 'DelayedArray'</span></a>
+<a class="sourceLine" id="cb15-35" data-line-number="35"><span class="co">#&gt; The following objects are masked from 'package:matrixStats':</span></a>
+<a class="sourceLine" id="cb15-36" data-line-number="36"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-37" data-line-number="37"><span class="co">#&gt;     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span></a>
+<a class="sourceLine" id="cb15-38" data-line-number="38"><span class="co">#&gt; The following object is masked from 'package:purrr':</span></a>
+<a class="sourceLine" id="cb15-39" data-line-number="39"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-40" data-line-number="40"><span class="co">#&gt;     simplify</span></a>
+<a class="sourceLine" id="cb15-41" data-line-number="41"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb15-42" data-line-number="42"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-43" data-line-number="43"><span class="co">#&gt;     aperm, apply, rowsum</span></a>
+<a class="sourceLine" id="cb15-44" data-line-number="44"><span class="kw">library</span>(BiocParallel)</a>
+<a class="sourceLine" id="cb15-45" data-line-number="45"><span class="kw">register</span>(<span class="kw">MulticoreParam</span>(<span class="dt">workers =</span> <span class="dv">8</span>))</a>
+<a class="sourceLine" id="cb15-46" data-line-number="46">metaList &lt;-<span class="st"> </span><span class="kw">DESeqDataSetFromPreCalculatedMatrix</span>(<span class="dt">expDesign =</span> expDesign,</a>
+<a class="sourceLine" id="cb15-47" data-line-number="47">                                                <span class="dt">designFormula =</span> <span class="op">~</span><span class="st"> </span>Condition,</a>
+<a class="sourceLine" id="cb15-48" data-line-number="48">                                                <span class="dt">selectedIR =</span> irnames[filtered_ir],</a>
+<a class="sourceLine" id="cb15-49" data-line-number="49">                                                <span class="dt">mat_intronDepth =</span> all[[<span class="st">&quot;intronDepth&quot;</span>]],</a>
+<a class="sourceLine" id="cb15-50" data-line-number="50">                                                <span class="dt">mat_spliceExact =</span> all[[<span class="st">&quot;spliceExact&quot;</span>]])</a>
+<a class="sourceLine" id="cb15-51" data-line-number="51"><span class="co">#&gt; [1] &quot;Data read successfully&quot;</span></a>
+<a class="sourceLine" id="cb15-52" data-line-number="52"><span class="co">#&gt; [1] &quot;Using user specified IRs for analysis&quot;</span></a>
+<a class="sourceLine" id="cb15-53" data-line-number="53"><span class="co">#&gt; [1] &quot;preparing data compatible to DESeq2&quot;</span></a>
+<a class="sourceLine" id="cb15-54" data-line-number="54"><span class="co">#&gt; converting counts to integer mode</span></a>
+<a class="sourceLine" id="cb15-55" data-line-number="55"></a>
+<a class="sourceLine" id="cb15-56" data-line-number="56">dds =<span class="st"> </span>metaList<span class="op">$</span>DESeq2Object                       <span class="co"># Extract DESeq2 Object with normalization factors ready</span></a>
+<a class="sourceLine" id="cb15-57" data-line-number="57"><span class="kw">colData</span>(dds)                                      <span class="co"># Check design of matrix</span></a>
+<a class="sourceLine" id="cb15-58" data-line-number="58"><span class="co">#&gt; DataFrame with 12 rows and 4 columns</span></a>
+<a class="sourceLine" id="cb15-59" data-line-number="59"><span class="co">#&gt;                           Sample Condition IRFinder sizeFactor</span></a>
+<a class="sourceLine" id="cb15-60" data-line-number="60"><span class="co">#&gt;                      &lt;character&gt;  &lt;factor&gt; &lt;factor&gt;  &lt;numeric&gt;</span></a>
+<a class="sourceLine" id="cb15-61" data-line-number="61"><span class="co">#&gt; intronDepth.Cancer_1    Cancer_1    Cancer       IR          1</span></a>
+<a class="sourceLine" id="cb15-62" data-line-number="62"><span class="co">#&gt; intronDepth.Cancer_2    Cancer_2    Cancer       IR          1</span></a>
+<a class="sourceLine" id="cb15-63" data-line-number="63"><span class="co">#&gt; intronDepth.Cancer_3    Cancer_3    Cancer       IR          1</span></a>
+<a class="sourceLine" id="cb15-64" data-line-number="64"><span class="co">#&gt; intronDepth.Normal_1    Normal_1    Normal       IR          1</span></a>
+<a class="sourceLine" id="cb15-65" data-line-number="65"><span class="co">#&gt; intronDepth.Normal_2    Normal_2    Normal       IR          1</span></a>
+<a class="sourceLine" id="cb15-66" data-line-number="66"><span class="co">#&gt; ...                          ...       ...      ...        ...</span></a>
+<a class="sourceLine" id="cb15-67" data-line-number="67"><span class="co">#&gt; totalSplice.Cancer_2    Cancer_2    Cancer   Splice          1</span></a>
+<a class="sourceLine" id="cb15-68" data-line-number="68"><span class="co">#&gt; totalSplice.Cancer_3    Cancer_3    Cancer   Splice          1</span></a>
+<a class="sourceLine" id="cb15-69" data-line-number="69"><span class="co">#&gt; totalSplice.Normal_1    Normal_1    Normal   Splice          1</span></a>
+<a class="sourceLine" id="cb15-70" data-line-number="70"><span class="co">#&gt; totalSplice.Normal_2    Normal_2    Normal   Splice          1</span></a>
+<a class="sourceLine" id="cb15-71" data-line-number="71"><span class="co">#&gt; totalSplice.Normal_3    Normal_3    Normal   Splice          1</span></a>
+<a class="sourceLine" id="cb15-72" data-line-number="72"></a>
+<a class="sourceLine" id="cb15-73" data-line-number="73"><span class="kw">design</span>(dds) =<span class="st"> </span><span class="er">~</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>Condition<span class="op">:</span>IRFinder     <span class="co"># Build a formula of GLM. Read below for more details. </span></a>
+<a class="sourceLine" id="cb15-74" data-line-number="74">dds =<span class="st"> </span><span class="kw">DESeq</span>(dds, <span class="dt">parallel =</span> T)                                  <span class="co"># Estimate parameters and fit to model</span></a>
+<a class="sourceLine" id="cb15-75" data-line-number="75"><span class="co">#&gt; using pre-existing size factors</span></a>
+<a class="sourceLine" id="cb15-76" data-line-number="76"><span class="co">#&gt; estimating dispersions</span></a>
+<a class="sourceLine" id="cb15-77" data-line-number="77"><span class="co">#&gt; gene-wise dispersion estimates: 8 workers</span></a>
+<a class="sourceLine" id="cb15-78" data-line-number="78"><span class="co">#&gt; mean-dispersion relationship</span></a>
+<a class="sourceLine" id="cb15-79" data-line-number="79"><span class="co">#&gt; final dispersion estimates, fitting model and testing: 8 workers</span></a>
+<a class="sourceLine" id="cb15-80" data-line-number="80"><span class="kw">resultsNames</span>(dds)                                 <span class="co"># Check the actual variable name assigned by DESeq2</span></a>
+<a class="sourceLine" id="cb15-81" data-line-number="81"><span class="co">#&gt; [1] &quot;Intercept&quot;                  &quot;Condition_Cancer_vs_Normal&quot;</span></a>
+<a class="sourceLine" id="cb15-82" data-line-number="82"><span class="co">#&gt; [3] &quot;ConditionNormal.IRFinderIR&quot; &quot;ConditionCancer.IRFinderIR&quot;</span></a></code></pre></div>
+</div>
+<div id="perform-differetial-ir" class="section level3">
+<h3>Perform differetial IR</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">contrast &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Normal&quot;</span>, <span class="st">&quot;Cancer&quot;</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">contrast &lt;-<span class="st"> </span><span class="kw">factor</span>(contrast, <span class="dt">levels =</span> contrast)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">results &lt;-<span class="st"> </span><span class="kw">differential_IR</span>(dds, contrast)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; [1] &quot;-- Calculating IR in positive cond&quot;</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; [1] &quot;-- Calculating IR in negative/ref cond&quot;</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; [1] &quot;-- Calculating Delta IR&quot;</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="kw">glimpse</span>(results)</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; Observations: 3,345</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; Variables: 8</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; $ IR_Name        &lt;chr&gt; &quot;PLEKHN1/ENSG00000187583/known-exon+anti-near/1:970758…</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; $ baseMean       &lt;dbl&gt; 3.083333, 24.250000, 1.833333, 14.583333, 2.500000, 2.…</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; $ log2FoldChange &lt;dbl&gt; 0.43706488, 1.16105046, 0.53050652, -0.92862759, 0.387…</span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; $ lfcSE          &lt;dbl&gt; 1.8565382, 1.2161186, 2.8361295, 1.8347852, 2.2467079,…</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; $ stat           &lt;dbl&gt; 0.23541927, 0.95471810, 0.18705300, -0.50612332, 0.172…</span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; $ pvalue         &lt;dbl&gt; 0.8138833, 0.3397203, 0.8516191, 0.6127701, 0.8632332,…</span></a>
+<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="co">#&gt; $ padj           &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt; $ DeltaIR        &lt;dbl&gt; -0.0684525834, -0.1972352113, -0.0170518641, 0.0056906…</span></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb16-20" data-line-number="20">results <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(<span class="kw">abs</span>(DeltaIR) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span>padj <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</a>
+<a class="sourceLine" id="cb16-22" data-line-number="22"><span class="co">#&gt; [1] IR_Name        baseMean       log2FoldChange lfcSE          stat          </span></a>
+<a class="sourceLine" id="cb16-23" data-line-number="23"><span class="co">#&gt; [6] pvalue         padj           DeltaIR       </span></a>
+<a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></a></code></pre></div>
+</div>
+</div>
+<div id="limma" class="section level2">
+<h2>limma</h2>
+<p>In strictest sense, <code>limma</code> package is not suitable for identifying differentially retained introns because value IR ratio is limited to 0 to 1 while limma is more suitable for microarry signal ratio and RNA seq counts. However, limma may be satisfactory in some cases.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">library</span>(limma)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&gt; Attaching package: 'limma'</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt; The following object is masked from 'package:DESeq2':</span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt;     plotMA</span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt;     plotMA</span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt; The following object is masked from 'package:irlib':</span></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt;     plotMA</span></a>
+<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">## Filtering IR where each sample have IR value of at least 0.1.</span></a>
+<a class="sourceLine" id="cb17-14" data-line-number="14">criteria &lt;-<span class="st"> &quot;all[[</span><span class="ch">\&quot;</span><span class="st">IR</span><span class="ch">\&quot;</span><span class="st">]][, x] &gt; 0.1&quot;</span> <span class="co"># [,x] will be replaced by each sample</span></a>
+<a class="sourceLine" id="cb17-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb17-16" data-line-number="16">filtered_ir &lt;-<span class="st"> </span><span class="kw">filterSamples</span>(<span class="dt">all =</span> all, criteria) </a>
+<a class="sourceLine" id="cb17-17" data-line-number="17"><span class="kw">table</span>(filtered_ir)</a>
+<a class="sourceLine" id="cb17-18" data-line-number="18"><span class="co">#&gt; filtered_ir</span></a>
+<a class="sourceLine" id="cb17-19" data-line-number="19"><span class="co">#&gt;  FALSE   TRUE </span></a>
+<a class="sourceLine" id="cb17-20" data-line-number="20"><span class="co">#&gt; 229986   3345</span></a>
+<a class="sourceLine" id="cb17-21" data-line-number="21"><span class="co">## --</span></a>
+<a class="sourceLine" id="cb17-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb17-23" data-line-number="23">mat  &lt;-<span class="st"> </span>all[[<span class="st">&quot;IR&quot;</span>]][filtered_ir, ]</a>
+<a class="sourceLine" id="cb17-24" data-line-number="24"><span class="kw">dim</span>(mat)</a>
+<a class="sourceLine" id="cb17-25" data-line-number="25"><span class="co">#&gt; [1] 3345    6</span></a>
+<a class="sourceLine" id="cb17-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb17-27" data-line-number="27">design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>Condition, <span class="dt">data =</span> expDesign)</a>
+<a class="sourceLine" id="cb17-28" data-line-number="28">fit &lt;-<span class="st"> </span><span class="kw">lmFit</span>(mat, design)</a>
+<a class="sourceLine" id="cb17-29" data-line-number="29"><span class="kw">summary</span>(fit)</a>
+<a class="sourceLine" id="cb17-30" data-line-number="30"><span class="co">#&gt;                  Length Class  Mode     </span></a>
+<a class="sourceLine" id="cb17-31" data-line-number="31"><span class="co">#&gt; coefficients     6690   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-32" data-line-number="32"><span class="co">#&gt; rank                1   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-33" data-line-number="33"><span class="co">#&gt; assign              2   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-34" data-line-number="34"><span class="co">#&gt; qr                  5   qr     list     </span></a>
+<a class="sourceLine" id="cb17-35" data-line-number="35"><span class="co">#&gt; df.residual      3345   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-36" data-line-number="36"><span class="co">#&gt; sigma            3345   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-37" data-line-number="37"><span class="co">#&gt; cov.coefficients    4   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-38" data-line-number="38"><span class="co">#&gt; stdev.unscaled   6690   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-39" data-line-number="39"><span class="co">#&gt; pivot               2   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-40" data-line-number="40"><span class="co">#&gt; Amean            3345   -none- numeric  </span></a>
+<a class="sourceLine" id="cb17-41" data-line-number="41"><span class="co">#&gt; method              1   -none- character</span></a>
+<a class="sourceLine" id="cb17-42" data-line-number="42"><span class="co">#&gt; design             12   -none- numeric</span></a>
+<a class="sourceLine" id="cb17-43" data-line-number="43">fit &lt;-<span class="st"> </span><span class="kw">eBayes</span>(fit)</a>
+<a class="sourceLine" id="cb17-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb17-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb17-46" data-line-number="46">limmaResults &lt;-<span class="st"> </span><span class="kw">topTable</span>(fit, <span class="dt">number =</span> <span class="kw">sum</span>(filtered_ir))</a>
+<a class="sourceLine" id="cb17-47" data-line-number="47"><span class="co">#&gt; Removing intercept from test coefficients</span></a>
+<a class="sourceLine" id="cb17-48" data-line-number="48">limmaResults2 &lt;-limmaResults <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-49" data-line-number="49"><span class="st">  </span>as.data.frame <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-50" data-line-number="50"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">IR_Name =</span> <span class="kw">rownames</span>(.)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-51" data-line-number="51"><span class="st">  </span><span class="kw">filter</span>(adj.P.Val <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span>AveExpr <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.1</span> ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-52" data-line-number="52"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="kw">abs</span>(logFC)))</a></code></pre></div>
+</div>
+<div id="beta-regression" class="section level2">
+<h2>Beta regression</h2>
+<p>Beta regression can model ratio very well. One requirement for beta regression is that the ratio must be between 0 to 1, but not exactly 0 or 1.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
