@@ -3,6 +3,7 @@
 export(DESeqDataSetFromPreCalculatedMatrix)
 export(IRF_WARNING_CODES)
 export(IRF_column_names)
+export(addDashes)
 export(apply_dynamic_cutoff)
 export(as.GenomicRange)
 export(calculateCoordWidth)
