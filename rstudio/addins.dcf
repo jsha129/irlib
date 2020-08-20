@@ -2,3 +2,8 @@ Name: Inserts dashes for comments
 Description: Inserts `### ---` at the cursor position.
 Binding: addDashes
 Interactive: true
+
+Name: Inserts dashes for comments
+Description: Inserts `####` (54 times) at the cursor position.
+Binding: addHashes
+Interactive: true
