@@ -8,13 +8,3 @@
 addDashes <- function(){
   rstudioapi::insertText(paste0("### ", Reduce(paste0, rep("-",50))))
 }
-
-
-#' @title addHashes (for formatting code)
-#' @description Adds '###' (54 '#') for making sections in code and general formatting. The function is called by Rstudio up on a hot key combinations.
-#' @return
-#' @export
-#'
-addHashes <- function(){
-  rstudioapi::insertText(paste0("###", Reduce(paste0, rep("#",51))))
-}
