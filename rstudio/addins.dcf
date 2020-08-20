@@ -1,0 +1,4 @@
+Name: Inserts dashes for comments
+Description: Inserts `### ---` at the cursor position.
+Binding: addDashes
+Interactive: true
