@@ -5,7 +5,7 @@
 \title{evaluates whether at least X proportion of samples in raw value matrix
   meets some threshhold value.}
 \usage{
-checkMinProp(mat, min_proportion, value, byrow = T)
+checkMinProp(mat, min_proportion, value, byrow = T, exactMatch = F)
 }
 \arguments{
 \item{mat}{value matrix}
@@ -16,6 +16,8 @@ higher than the value parameter}
 \item{value}{threshhold value to check in *mat*}
 
 \item{byrow}{whether to calculate min_proportion by row}
+
+\item{exactMatch}{whether to interpret the value as categorical data (see IRF_WARNING_CODES())  or continuous (IR ratio or splice exact. Setting this value to TRUE will '==' operator instead of '>='.}
 }
 \value{
 
