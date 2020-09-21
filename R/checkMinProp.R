@@ -9,22 +9,31 @@
 #' @param min_proportion threshhold minimum proportions of samples (colnames) to
 #'   higher than the value parameter
 #' @param byrow whether to calculate min_proportion by row
+#' @param exactMatch whether to interpret the value as categorical data (see IRF_WARNING_CODES())  or continuous (IR ratio or splice exact. Setting this value to TRUE will '==' operator instead of '>='.
 #'
 #' @return
 #' @export
 #'
 
-checkMinProp <- function(mat, min_proportion, value, byrow = T){
+checkMinProp <- function(mat, min_proportion, value, byrow = T, exactMatch = F){
   if(min_proportion > 1 | min_proportion < 0){
     stop("min_proportion must be between 0 and 1")
   }
   if(byrow){
     temp <- apply(mat, 1, function(i){
-      sum(i > value)/length(i) >= min_proportion
+      if(exactMatch){
+        sum(i == value)/length(i) >= min_proportion
+      } else {
+        sum(i > value)/length(i) >= min_proportion
+      }
     })
   } else {
     temp <- apply(mat, 2, function(i){
-      sum(i > value)/length(i) >= min_proportion
+      if(exactMatch){
+        sum(i == value)/length(i) >= min_proportion
+      } else{
+        sum(i > value)/length(i) >= min_proportion
+      }
     })
   }
   return(temp)
